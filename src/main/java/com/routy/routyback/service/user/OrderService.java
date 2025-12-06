@@ -22,34 +22,35 @@ public class OrderService implements IOrderService {
     /**
      * 주문 상태 요약 조회
      * 회원의 주문 상태(결제 완료, 준비중, 배송중, 배송완료 등)를 집계합니다.
-     * @param userNo 회원 번호
+     * @param userId 회원 번호
      * @return 주문 상태 요약 응답 DTO
      */
     @Override
-    public OrderStatusSummaryResponse getSummary(Long userNo) {
-        return orderMapper.getOrderStatusSummary(userNo);
+    public OrderStatusSummaryResponse getSummary(Long userId) {
+        return orderMapper.getOrderStatusSummary(userId);
     }
 
     /**
      * 주문 목록 조회
      * 회원이 가진 전체 주문 목록을 최신순으로 조회합니다.
-     * @param userNo 회원 번호
+     * @param userId 회원 번호
      * @return 주문 목록 응답 DTO 리스트
      */
     @Override
-    public List<OrderListItemResponse> getList(Long userNo) {
-        return orderMapper.getOrderList(userNo);
+    public List<OrderListItemResponse> getList(Long userId) {
+        return orderMapper.getOrderList(userId);
     }
 
     /**
      * 주문 상세 조회
      * 단일 주문에 대한 기본 정보와 주문 상품 목록을 함께 조회합니다.
+     * @param userId 회원 번호
      * @param odNo 주문 번호
      * @return 주문 상세 응답 DTO
      */
     @Override
-    public OrderDetailResponse getDetail(Long odNo) {
-        OrderDetailResponse detail = orderMapper.getOrderDetail(odNo);
+    public OrderDetailResponse getDetail(Long userId, Long odNo) {
+        OrderDetailResponse detail = orderMapper.getOrderDetail(userId, odNo);
         detail.setItems(orderMapper.getOrderItems(odNo));
         return detail;
     }

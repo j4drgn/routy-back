@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/orders")
+@RequestMapping("/api/users/{userId}/orders")
 public class OrderController {
 
     private final IOrderService orderService;
@@ -23,24 +23,24 @@ public class OrderController {
     /**
      * 주문 상태 요약 조회
      */
-    @GetMapping("/{userNo}/status-summary")
-    public ResponseEntity<ApiResponse> summary(@PathVariable Long userNo) {
-        return ResponseEntity.ok(ApiResponse.success(orderService.getSummary(userNo)));
+    @GetMapping("/status-summary")
+    public ResponseEntity<ApiResponse> summary(@PathVariable Long userId) {
+        return ResponseEntity.ok(ApiResponse.success(orderService.getSummary(userId)));
     }
 
     /**
      * 주문 목록 조회
      */
-    @GetMapping("/{userNo}")
-    public ResponseEntity<ApiResponse> list(@PathVariable Long userNo) {
-        return ResponseEntity.ok(ApiResponse.success(orderService.getList(userNo)));
+    @GetMapping("")
+    public ResponseEntity<ApiResponse> list(@PathVariable Long userId) {
+        return ResponseEntity.ok(ApiResponse.success(orderService.getList(userId)));
     }
 
     /**
      * 주문 상세 조회
      */
-    @GetMapping("/detail/{odNo}")
-    public ResponseEntity<ApiResponse> detail(@PathVariable Long odNo) {
-        return ResponseEntity.ok(ApiResponse.success(orderService.getDetail(odNo)));
+    @GetMapping("/{odNo}")
+    public ResponseEntity<ApiResponse> detail(@PathVariable Long userId, @PathVariable Long odNo) {
+        return ResponseEntity.ok(ApiResponse.success(orderService.getDetail(userId, odNo)));
     }
 }
