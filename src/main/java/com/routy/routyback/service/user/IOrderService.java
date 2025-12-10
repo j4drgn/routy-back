@@ -15,15 +15,15 @@ public interface IOrderService {
     /**
      * 주문 상태 요약 조회
      */
-    OrderStatusSummaryResponse getSummary(Long userId);
+    OrderStatusSummaryResponse getSummary(String userId);
 
     /**
      * 주문 목록 조회
      */
-    List<OrderListItemResponse> getList(Long userId);
+    List<OrderListItemResponse> getList(String userId);
 
     /**
      * 주문 상세 조회
      */
-    OrderDetailResponse getDetail(Long userId, Long odNo);
+    OrderDetailResponse getDetail(String userId, Long odNo);
 }

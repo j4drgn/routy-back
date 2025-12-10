@@ -24,7 +24,7 @@ public class OrderController {
      * 주문 상태 요약 조회
      */
     @GetMapping("/status-summary")
-    public ResponseEntity<ApiResponse> summary(@PathVariable Long userId) {
+    public ResponseEntity<ApiResponse> summary(@PathVariable String userId) {
         return ResponseEntity.ok(ApiResponse.success(orderService.getSummary(userId)));
     }
 
@@ -32,7 +32,7 @@ public class OrderController {
      * 주문 목록 조회
      */
     @GetMapping("")
-    public ResponseEntity<ApiResponse> list(@PathVariable Long userId) {
+    public ResponseEntity<ApiResponse> list(@PathVariable String userId) {
         return ResponseEntity.ok(ApiResponse.success(orderService.getList(userId)));
     }
 
@@ -40,7 +40,7 @@ public class OrderController {
      * 주문 상세 조회
      */
     @GetMapping("/{odNo}")
-    public ResponseEntity<ApiResponse> detail(@PathVariable Long userId, @PathVariable Long odNo) {
+    public ResponseEntity<ApiResponse> detail(@PathVariable String userId, @PathVariable Long odNo) {
         return ResponseEntity.ok(ApiResponse.success(orderService.getDetail(userId, odNo)));
     }
 }

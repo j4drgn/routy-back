@@ -12,7 +12,7 @@
 
     <!-- 1) 주문 상태 요약 -->
     <select id="getOrderStatusSummary"
-        parameterType="long"
+        parameterType="string"
         resultType="com.routy.routyback.dto.order.OrderStatusSummaryResponse">
         SELECT COUNT(DECODE(ODSTATUS, 1, 1)) AS paymentComplete,
                COUNT(DECODE(ODSTATUS, 2, 1)) AS preparing,
@@ -22,12 +22,12 @@
                COUNT(DECODE(ODSTATUS, 6, 1)) AS returned,
                COUNT(DECODE(ODSTATUS, 7, 1)) AS exchanged
         FROM ORDERS
-        WHERE USERNO = #{userId}
+        WHERE USERNO = (SELECT USERNO FROM USERS WHERE USERID = #{userId})
     </select>
 
     <!-- 2) 주문 목록 조회 -->
     <select id="getOrderList"
-        parameterType="long"
+        parameterType="string"
         resultType="com.routy.routyback.dto.order.OrderListItemResponse">
         SELECT O.ODNO                             AS orderNo,
                P.PRDNAME                          AS productName,
@@ -43,7 +43,7 @@
         FROM ORDERS O
                  JOIN PAY_PRODUCT_MAPPING PM ON PM.ODNO = O.ODNO
                  JOIN PRODUCT P ON P.PRDNO = PM.PRDNO
-        WHERE O.USERNO = #{userId}
+        WHERE O.USERNO = (SELECT USERNO FROM USERS WHERE USERID = #{userId})
         GROUP BY O.ODNO, P.PRDNAME, P.PRDIMG,
                  O.ODREGDATE, O.ODSTATUS
         ORDER BY O.ODNO DESC
@@ -59,7 +59,7 @@
                O.ODDELVPRICE                                 AS deliveryPrice
         FROM ORDERS O
         WHERE O.ODNO = #{odNo}
-          AND O.USERNO = #{userId}
+          AND O.USERNO = (SELECT USERNO FROM USERS WHERE USERID = #{userId})
     </select>
 
     <!-- 3-1) 주문 상세 상품 목록 -->

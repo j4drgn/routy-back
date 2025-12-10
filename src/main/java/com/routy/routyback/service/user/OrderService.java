@@ -26,7 +26,7 @@ public class OrderService implements IOrderService {
      * @return 주문 상태 요약 응답 DTO
      */
     @Override
-    public OrderStatusSummaryResponse getSummary(Long userId) {
+    public OrderStatusSummaryResponse getSummary(String userId) {
         return orderMapper.getOrderStatusSummary(userId);
     }
 
@@ -37,7 +37,7 @@ public class OrderService implements IOrderService {
      * @return 주문 목록 응답 DTO 리스트
      */
     @Override
-    public List<OrderListItemResponse> getList(Long userId) {
+    public List<OrderListItemResponse> getList(String userId) {
         return orderMapper.getOrderList(userId);
     }
 
@@ -49,9 +49,18 @@ public class OrderService implements IOrderService {
      * @return 주문 상세 응답 DTO
      */
     @Override
-    public OrderDetailResponse getDetail(Long userId, Long odNo) {
+    public OrderDetailResponse getDetail(String userId, Long odNo) {
+        // 기본 상세 정보 조회
         OrderDetailResponse detail = orderMapper.getOrderDetail(userId, odNo);
+
+        // 주문이 존재하지 않거나 사용자 소유가 아닌 경우 방어 처리
+        if (detail == null) {
+            throw new IllegalArgumentException("해당 주문을 조회할 수 없습니다. (userId 또는 odNo 불일치)");
+        }
+
+        // 주문 상품 목록 조회
         detail.setItems(orderMapper.getOrderItems(odNo));
+
         return detail;
     }
 }
